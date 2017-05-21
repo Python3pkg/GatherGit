@@ -32,7 +32,7 @@ class Cache(object):
         branches = self.repo.get('branches')
         changed_refs = []
 
-        for branch_name, branch_settings in Helper.sorted_dict(branches).items():
+        for branch_name, branch_settings in list(Helper.sorted_dict(branches).items()):
             repo_path = '{}/{}'.format(self.path, branch_settings.get('repo'))
             repo['remotes'] = {'origin': {'url': branch_settings.get('url')}}
 

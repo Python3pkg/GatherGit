@@ -63,12 +63,12 @@ class ConfigParser(object):
                     with open(file_path, 'r') as stream:
                         data = yaml.load(stream)
                     if data:
-                        for root, value in data.items():
+                        for root, value in list(data.items()):
                             if root == 'settings':
                                 self.config[root] = value
                             elif root == 'deployments':
-                                for repo, settings in value.items():
-                                    if repo not in self.config[root].keys():
+                                for repo, settings in list(value.items()):
+                                    if repo not in list(self.config[root].keys()):
                                         self.config[root][repo] = settings
                                     else:
                                         self.config[root][repo].update(settings)

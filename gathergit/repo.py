@@ -31,7 +31,7 @@ class Repo(dict):
         """
         Add branches to our Repo object
         """
-        for branch, _branch_settings in branches.items():
+        for branch, _branch_settings in list(branches.items()):
             branch_name = str(branch)
             branch_settings = _branch_settings
 
@@ -41,17 +41,17 @@ class Repo(dict):
             if not isinstance(branch_settings.get('ref'), str):
                 branch_settings['ref'] = str(branch_settings['ref'])
 
-            if branch_name not in self['branches'].keys():
+            if branch_name not in list(self['branches'].keys()):
                 self['branches'][branch_name] = branch_settings
             else:
                 self['branches'][branch_name].update(branch_settings)
 
             # REPO
-            if 'repo' not in self['branches'][branch_name].keys():
+            if 'repo' not in list(self['branches'][branch_name].keys()):
                 self['branches'][branch_name]['repo'] = self.get('defaults').get('repo', self['name'])
 
             # URL
-            if 'url' not in self['branches'][branch_name].keys():
+            if 'url' not in list(self['branches'][branch_name].keys()):
                 url = self.get('defaults').get('url', deployment_settings.get('defaults', {}).get('url'))
                 if url is None:
                     base_url = self['branches'][branch_name].get('base_url', self.get('defaults').get(

@@ -18,9 +18,9 @@ class Repoindex(dict):
         """
         Add a repo to the index
         """
-        if deployment_name not in self.keys():
+        if deployment_name not in list(self.keys()):
             self[deployment_name] = {}
-        if repo_name not in self[deployment_name].keys():
+        if repo_name not in list(self[deployment_name].keys()):
             self[deployment_name][repo_name] = self.verify_repo(repo)
         else:
             raise
@@ -36,14 +36,14 @@ class Repoindex(dict):
     def sync_repos(self, sync_all=False):
         if sync_all:
             self.logger.debug('Going to sync all repos from scratch (sync_all=True)')
-            for deployment_name, repolist in Helper.sorted_dict(self).items():
-                for repo_name, repo in Helper.sorted_dict(repolist).items():
-                    for branch_name, branch_settings in Helper.sorted_dict(repo.get('branches')).items():
+            for deployment_name, repolist in list(Helper.sorted_dict(self).items()):
+                for repo_name, repo in list(Helper.sorted_dict(repolist).items()):
+                    for branch_name, branch_settings in list(Helper.sorted_dict(repo.get('branches')).items()):
                         pass  # TODO
         else:
             pending_updates = []
-            for deployment_name, repolist in Helper.sorted_dict(self).items():
-                for repo_name, repo in Helper.sorted_dict(repolist).items():
+            for deployment_name, repolist in list(Helper.sorted_dict(self).items()):
+                for repo_name, repo in list(Helper.sorted_dict(repolist).items()):
                     if repo.get('updates').get('updated_refs'):
                         pending_updates.append(repo.get('updates'))
             if pending_updates:
@@ -55,9 +55,9 @@ class Repoindex(dict):
                         repo_url = updated_ref.get('url')
                         repo_ref = updated_ref.get('ref')
 
-                        for deployment_name, repolist in Helper.sorted_dict(self).items():
-                            for repo_name, repo in Helper.sorted_dict(repolist).items():
-                                for branch_name, branch_settings in Helper.sorted_dict(repo.get('branches')).items():
+                        for deployment_name, repolist in list(Helper.sorted_dict(self).items()):
+                            for repo_name, repo in list(Helper.sorted_dict(repolist).items()):
+                                for branch_name, branch_settings in list(Helper.sorted_dict(repo.get('branches')).items()):
                                     if repo_url == branch_settings.get('url') and \
                                        repo_ref == branch_settings.get('ref') and \
                                        cache_name == branch_settings.get('cache', repo.get('defaults').get('cache')):

@@ -122,7 +122,7 @@ class GitRepo(object):
         elif isinstance(gitref, _GitRefs.head.Head):
             return gitref.checkout(force=True)
         else:
-            print(type(gitref))  # TODO
+            print((type(gitref)))  # TODO
             raise
 
     # Remotes
@@ -130,7 +130,7 @@ class GitRepo(object):
         """
         Add remotes to a repository
         """
-        for remote_name, remote_settings in remotes.items():
+        for remote_name, remote_settings in list(remotes.items()):
             if remote_name not in self.get_remotes():
                 gitremote = self.git.create_remote(remote_name, remote_settings.get('url'))  # TOOD
                 self.git.git.config('--add', 'remote.{}.fetch'.format(remote_name), '+refs/tags/*:refs/tags/*')
